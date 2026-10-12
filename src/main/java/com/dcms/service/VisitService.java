@@ -187,4 +187,8 @@ public class VisitService {
     public Visit getVisitById(int visitId) {
         return visitDAO.findById(visitId);
     }
+
+    public List<Visit> getTodayVisits() {
+        return visitDAO.findTodayVisits();
+    }
 }

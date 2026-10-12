@@ -151,13 +151,26 @@ public class CheckInServlet extends HttpServlet {
     private void handleCreateWalkIn(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int patientId = Integer.parseInt(request.getParameter("patientId"));
-            int dentistId = Integer.parseInt(request.getParameter("dentistId"));
+            String patientIdStr = request.getParameter("patientId");
+            String dentistIdStr = request.getParameter("dentistId");
+
+            if (patientIdStr == null || patientIdStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng tìm kiếm và chọn bệnh nhân từ danh sách gợi ý trước khi tiếp nhận.");
+            }
+            if (dentistIdStr == null || dentistIdStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng chọn bác sĩ phụ trách tiếp nhận ca khám.");
+            }
+
+            int patientId = Integer.parseInt(patientIdStr.trim());
+            int dentistId = Integer.parseInt(dentistIdStr.trim());
             String visitType = request.getParameter("visitType");
             String notes = request.getParameter("notes");
 
             Visit visit = visitService.createWalkInVisit(patientId, dentistId, visitType, notes);
             response.sendRedirect(request.getContextPath() + "/reception/checkin?success=walkin&visitId=" + visit.getVisitId());
+        } catch (NumberFormatException ex) {
+            request.setAttribute("errorMessage", "Mã bệnh nhân hoặc mã bác sĩ không đúng định dạng số.");
+            showWalkInForm(request, response);
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());
             showWalkInForm(request, response);

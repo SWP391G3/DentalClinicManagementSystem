@@ -111,7 +111,11 @@
                                                         ${p.fullName.substring(0, 1).toUpperCase()}
                                                     </div>
                                                     <div>
-                                                        <div style="font-weight:700;">${p.fullName}</div>
+                                                        <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${p.patientId}" 
+                                                           style="font-weight:700; color:var(--drsmile-navy); text-decoration:none;" 
+                                                           title="Nhấp để xem hồ sơ bệnh án 360°">
+                                                            ${p.fullName}
+                                                        </a>
                                                         <c:if test="${not empty p.citizenId}">
                                                             <div style="font-size:11px; color:var(--text-muted);">CCCD: ${p.citizenId}</div>
                                                         </c:if>
@@ -151,6 +155,12 @@
                                             </td>
                                             <td style="text-align: right;">
                                                 <div style="display:inline-flex; gap:6px;">
+                                                    <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${p.patientId}" 
+                                                       class="btn btn-secondary btn-sm" 
+                                                       style="color:var(--drsmile-navy); font-weight:700; border-color:#cbd5e1;" 
+                                                       title="Xem chi tiết bệnh án 360°">
+                                                        Bệnh Án
+                                                    </a>
                                                     <a href="${pageContext.request.contextPath}/reception/patients/edit?id=${p.patientId}" class="btn btn-secondary btn-sm">
                                                         Sửa
                                                     </a>

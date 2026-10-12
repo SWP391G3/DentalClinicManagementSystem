@@ -108,5 +108,12 @@ public class PatientService {
         if (gender == null || (!gender.equals("Nam") && !gender.equals("Nữ") && !gender.equals("Khác"))) {
             throw new PatientValidationException("Giới tính phải là 'Nam', 'Nữ' hoặc 'Khác'");
         }
+
+        if (patient.getDob() != null) {
+            java.time.LocalDate minAgeDate = java.time.LocalDate.now().minusYears(1);
+            if (patient.getDob().isAfter(minAgeDate)) {
+                throw new PatientValidationException("Tuổi bệnh nhân tối thiểu phải từ 12 tháng tuổi trở lên (ngày sinh tối đa là " + minAgeDate + ")");
+            }
+        }
     }
 }

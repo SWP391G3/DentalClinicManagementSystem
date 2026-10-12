@@ -187,6 +187,25 @@
             resultsBox.style.display = 'none';
         }
     });
+
+    var walkinForm = document.querySelector('form[action$="/reception/walkin"]');
+    if (walkinForm) {
+        walkinForm.addEventListener('submit', function(e) {
+            if (!patientIdInput.value || patientIdInput.value.trim() === '') {
+                e.preventDefault();
+                alert('Vui lòng tìm kiếm và nhấp chọn bệnh nhân từ danh sách gợi ý trước khi tiếp nhận.');
+                searchInput.focus();
+                return false;
+            }
+            var docSelect = document.getElementById('dentistId');
+            if (!docSelect || !docSelect.value) {
+                e.preventDefault();
+                alert('Vui lòng chọn bác sĩ phụ trách ca khám cho bệnh nhân.');
+                if (docSelect) docSelect.focus();
+                return false;
+            }
+        });
+    }
 </script>
 
 </body>

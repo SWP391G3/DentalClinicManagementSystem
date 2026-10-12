@@ -122,9 +122,24 @@ public class PatientServiceTest {
     public void testSearchPatients() {
         Patient p = new Patient(1, "Hoàng Văn Nam", LocalDate.of(1992, 5, 14), "Nam", "0988111222", "001092001122", "Hà Nội");
         when(patientDAO.search("0988", 0, 10)).thenReturn(Collections.singletonList(p));
-
         List<Patient> results = patientService.searchPatients("0988", 1, 10);
         assertEquals(1, results.size());
         assertEquals("Hoàng Văn Nam", results.get(0).getFullName());
+    }
+
+    @Test
+    @DisplayName("TC_PAT_07: Validation Error when Patient age is under 12 months")
+    public void testCreatePatientDobUnderOneYearFails() {
+        Patient p = new Patient();
+        p.setFullName("Bé Sơ Sinh");
+        p.setPhone("0988123456");
+        p.setGender("Nam");
+        // Born 3 months ago (< 12 months)
+        p.setDob(LocalDate.now().minusMonths(3));
+
+        PatientValidationException ex = assertThrows(PatientValidationException.class, () -> {
+            patientService.createPatient(p);
+        });
+        assertTrue(ex.getMessage().contains("12 tháng tuổi"));
     }
 }

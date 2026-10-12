@@ -352,6 +352,38 @@ public class VisitDAO {
         return list;
     }
 
+    public List<Visit> findTodayVisits() {
+        List<Visit> list = new ArrayList<>();
+        String sql = "SELECT v.VisitId, v.PatientId, v.PrimaryDentistId, v.AppointmentId, v.CheckInTime, v.CheckOutTime, " +
+                     "v.Status, v.VisitType, v.Notes, v.Operatory, v.CreatedAt, v.UpdatedAt, " +
+                     "p.FullName AS PatientName, p.Phone AS PatientPhone, p.MedicalAlerts, p.Allergies, " +
+                     "du.FullName AS DentistName " +
+                     "FROM dbo.Visits v " +
+                     "JOIN dbo.Patients p ON v.PatientId = p.PatientId " +
+                     "JOIN dbo.Dentists d ON v.PrimaryDentistId = d.DentistId " +
+                     "JOIN dbo.Users du ON d.DentistId = du.UserId " +
+                     "WHERE CAST(v.CheckInTime AS DATE) = CAST(SYSDATETIME() AS DATE) " +
+                     "ORDER BY CASE WHEN v.Status = 'Waiting' THEN 1 WHEN v.Status = 'InProgress' THEN 2 ELSE 3 END, v.CheckInTime DESC";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToVisit(rs));
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Error in findTodayVisits", ex);
+        } finally {
+            DBContext.close(conn, ps, rs);
+        }
+        return list;
+    }
+
     private Visit mapResultSetToVisit(ResultSet rs) throws SQLException {
         Visit v = new Visit();
         v.setVisitId(rs.getInt("VisitId"));

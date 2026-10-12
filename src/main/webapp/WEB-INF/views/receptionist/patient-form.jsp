@@ -101,7 +101,9 @@
 
                             <!-- DOB -->
                             <div class="form-group">
-                                <label for="dob" class="form-label">Ngày Sinh</label>
+                                <label for="dob" class="form-label">
+                                    Ngày Sinh <span style="font-size:11.5px; color:var(--text-muted); font-weight:normal;">(Tối thiểu 12 tháng tuổi)</span>
+                                </label>
                                 <input type="date" 
                                        id="dob" 
                                        name="dob" 
@@ -183,6 +185,33 @@
         </main>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dobInput = document.getElementById('dob');
+        if (dobInput) {
+            var maxDate = new Date();
+            maxDate.setFullYear(maxDate.getFullYear() - 1);
+            var yyyy = maxDate.getFullYear();
+            var mm = String(maxDate.getMonth() + 1).padStart(2, '0');
+            var dd = String(maxDate.getDate()).padStart(2, '0');
+            var maxDateStr = yyyy + '-' + mm + '-' + dd;
+            dobInput.max = maxDateStr;
+
+            var form = dobInput.closest('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    if (dobInput.value && dobInput.value > maxDateStr) {
+                        e.preventDefault();
+                        alert('Tuổi bệnh nhân tối thiểu phải từ 12 tháng tuổi trở lên (ngày sinh tối đa là ' + maxDateStr + '). Vui lòng kiểm tra lại!');
+                        dobInput.focus();
+                        return false;
+                    }
+                });
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
