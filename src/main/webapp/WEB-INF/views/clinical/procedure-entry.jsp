@@ -116,13 +116,13 @@
 </head>
 <body>
 
-<div class="app-layout">
+<div class="app-shell">
     <jsp:include page="../layout/sidebar.jsp" />
 
-    <div class="main-content">
+    <div class="app-main">
         <jsp:include page="../layout/header.jsp" />
 
-        <main class="page-body">
+        <main class="page-content">
             <!-- Breadcrumb Navigation -->
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
                 <a href="${pageContext.request.contextPath}/dentist/queue" style="color: var(--drsmile-blue); text-decoration: none; font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
@@ -227,6 +227,57 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Pre-Treatment Vitals & Clinical Clearance Banner (From Dental Assistant) -->
+            <div style="background: #ffffff; border: 1px solid var(--border); border-left: 4px solid ${empty assessment ? '#f59e0b' : (assessment.medicalClearance ? '#10b981' : '#ef4444')}; border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${empty assessment ? '#d97706' : (assessment.medicalClearance ? '#16a34a' : '#dc2626')}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                        <span style="font-weight: 700; font-size: 14px; color: var(--drsmile-navy);">
+                            Dấu Hiệu Sinh Tồn & An Toàn Tiền Thủ Thuật (Y Tá Nha Khoa Tiếp Nhận)
+                        </span>
+                    </div>
+                    <div>
+                        <c:choose>
+                            <c:when test="${not empty assessment}">
+                                <span class="status-pill ${assessment.medicalClearance ? 'status-pill-success' : 'status-pill-danger'}" style="font-size: 11.5px;">
+                                    ${assessment.medicalClearance ? '✓ Đủ điều kiện can thiệp thủ thuật' : '⚠ Tạm hoãn can thiệp'}
+                                </span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="status-pill status-pill-warning" style="font-size: 11.5px;">
+                                    Chưa ghi nhận sinh hiệu
+                                </span>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+
+                <c:choose>
+                    <c:when test="${not empty assessment}">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; font-size: 13px; color: var(--text-secondary); background: #f8fafc; padding: 12px 16px; border-radius: 8px;">
+                            <div>Huyết áp: <strong style="color: var(--text-primary);">${empty assessment.bloodPressure ? '--' : assessment.bloodPressure} mmHg</strong></div>
+                            <div>Mạch: <strong style="color: var(--text-primary);">${empty assessment.pulseRate ? '--' : assessment.pulseRate} bpm</strong></div>
+                            <c:if test="${not empty assessment.bloodSugar}">
+                                <div>Đường huyết: <strong style="color: var(--text-primary);">${assessment.bloodSugar} mmol/L</strong></div>
+                            </c:if>
+                            <div>Nguy cơ chảy máu: <strong style="color: ${assessment.bleedingRisk eq 'High' ? '#dc2626' : 'var(--text-primary)'};">${assessment.bleedingRisk}</strong></div>
+                            <c:if test="${not empty assessment.notes}">
+                                <div style="grid-column: 1 / -1; margin-top: 4px; font-style: italic; color: #475569;">
+                                    Ghi chú y tá: "${assessment.notes}"
+                                </div>
+                            </c:if>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div style="font-size: 13px; color: var(--text-muted);">
+                            Chưa có dữ liệu sinh tồn từ y tá nha khoa. Bác sĩ cần lưu ý kiểm tra thể trạng bệnh nhân trước khi thực hiện các thủ thuật can thiệp tại ghế.
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <!-- Import From Accepted Treatment Plan Items (Iron Rule 2) -->

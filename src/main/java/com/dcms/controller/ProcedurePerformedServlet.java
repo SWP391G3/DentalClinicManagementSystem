@@ -3,11 +3,13 @@ package com.dcms.controller;
 import com.dcms.dao.DentalServiceDAO;
 import com.dcms.dao.DentistDAO;
 import com.dcms.dao.PatientDAO;
+import com.dcms.dao.PreTreatmentAssessmentDAO;
 import com.dcms.dao.TreatmentPlanDAO;
 import com.dcms.dao.VisitDAO;
 import com.dcms.model.DentalService;
 import com.dcms.model.Dentist;
 import com.dcms.model.Patient;
+import com.dcms.model.PreTreatmentAssessment;
 import com.dcms.model.ProcedurePerformed;
 import com.dcms.model.TreatmentPlan;
 import com.dcms.model.TreatmentPlanItem;
@@ -53,6 +55,7 @@ public class ProcedurePerformedServlet extends HttpServlet {
     private final DentistDAO dentistDAO;
     private final DentalServiceDAO serviceDAO;
     private final TreatmentPlanDAO planDAO;
+    private final PreTreatmentAssessmentDAO assessmentDAO;
 
     public ProcedurePerformedServlet() {
         this.clinicalProcedureService = new ClinicalProcedureService();
@@ -61,17 +64,20 @@ public class ProcedurePerformedServlet extends HttpServlet {
         this.dentistDAO = new DentistDAO();
         this.serviceDAO = new DentalServiceDAO();
         this.planDAO = new TreatmentPlanDAO();
+        this.assessmentDAO = new PreTreatmentAssessmentDAO();
     }
 
     public ProcedurePerformedServlet(ClinicalProcedureService clinicalProcedureService, VisitDAO visitDAO,
                                     PatientDAO patientDAO, DentistDAO dentistDAO,
-                                    DentalServiceDAO serviceDAO, TreatmentPlanDAO planDAO) {
+                                    DentalServiceDAO serviceDAO, TreatmentPlanDAO planDAO,
+                                    PreTreatmentAssessmentDAO assessmentDAO) {
         this.clinicalProcedureService = clinicalProcedureService;
         this.visitDAO = visitDAO;
         this.patientDAO = patientDAO;
         this.dentistDAO = dentistDAO;
         this.serviceDAO = serviceDAO;
         this.planDAO = planDAO;
+        this.assessmentDAO = assessmentDAO;
     }
 
     @Override
@@ -107,6 +113,7 @@ public class ProcedurePerformedServlet extends HttpServlet {
 
             Patient patient = patientDAO.findById(visit.getPatientId());
             Dentist dentist = dentistDAO.findById(visit.getPrimaryDentistId());
+            PreTreatmentAssessment assessment = assessmentDAO.findByVisitId(visitId);
             List<ProcedurePerformed> procedures = clinicalProcedureService.getProceduresByVisit(visitId);
             List<DentalService> activeServices = serviceDAO.findAllActive();
 
@@ -127,6 +134,7 @@ public class ProcedurePerformedServlet extends HttpServlet {
             request.setAttribute("visit", visit);
             request.setAttribute("patient", patient);
             request.setAttribute("dentist", dentist);
+            request.setAttribute("assessment", assessment);
             request.setAttribute("procedures", procedures);
             request.setAttribute("activeServices", activeServices);
             request.setAttribute("pendingPlanItems", pendingPlanItems);

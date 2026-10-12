@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hàng Đợi Khám Bệnh Nhân — Dr.Smile DCMS Dental Care</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=3.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=4.0">
 </head>
 <body>
 
@@ -196,6 +196,9 @@
                                                 </button>
                                                 <a href="${pageContext.request.contextPath}/clinical/procedures?visitId=${v.visitId}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 600; text-align: center; text-decoration: none;">
                                                     Thủ Thuật Tại Ghế
+                                                </a>
+                                                <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${v.patientId}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; font-weight: 600; text-align: center; text-decoration: none; color: var(--drsmile-navy); border-color: #cbd5e1;" target="_blank" title="Mở hồ sơ bệnh án 360° của bệnh nhân">
+                                                    Xem Bệnh Án 360°
                                                 </a>
                                             </form>
                                         </div>

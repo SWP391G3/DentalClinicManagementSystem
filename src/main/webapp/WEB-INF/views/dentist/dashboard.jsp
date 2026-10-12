@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bàn Làm Việc Bác Sĩ Nha Khoa — Dr.Smile DCMS Dental Care</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=3.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=4.0">
 </head>
 <body>
 
@@ -113,7 +113,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${v.patientId}" target="_blank" class="btn btn-outline" style="padding: 12px 18px; font-size: 14px; font-weight: 600;" title="Xem Bệnh Án Toàn Diện">
+                                Bệnh Án 360°
+                            </a>
                             <a href="${pageContext.request.contextPath}/clinical/examination?visitId=${v.visitId}" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px; font-weight: 600;">
                                 Mở Hồ Sơ & Sơ Đồ Răng &rarr;
                             </a>
@@ -169,7 +172,10 @@
                                                     </c:if>
                                                 </div>
 
-                                                <div style="display: flex; align-items: center; gap: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${v.patientId}" target="_blank" class="btn btn-outline" style="padding: 7px 12px; font-size: 12px; white-space: nowrap;" title="Xem Bệnh Án 360°">
+                                                        Bệnh Án
+                                                    </a>
                                                     <select name="operatory" class="form-control" style="width: 140px; padding: 8px 10px; font-size: 13px;">
                                                         <option value="Ghế 1 - P.101">Ghế 1 - P.101</option>
                                                         <option value="Ghế 2 - P.102">Ghế 2 - P.102</option>
@@ -207,14 +213,15 @@
                                         <th style="width: 140px;">Giờ Hẹn</th>
                                         <th>Bệnh Nhân</th>
                                         <th>Dịch Vụ / Lý Do</th>
-                                        <th style="text-align: center; width: 130px;">Trạng Thái</th>
+                                        <th style="text-align: center; width: 110px;">Trạng Thái</th>
+                                        <th style="text-align: center; width: 100px;">Bệnh Án</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:choose>
                                         <c:when test="${empty todayAppointments}">
                                             <tr>
-                                                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
                                                     Không có lịch hẹn nào được phân công hôm nay.
                                                 </td>
                                             </tr>
@@ -249,6 +256,11 @@
                                                     </td>
                                                     <td style="text-align: center;">
                                                         <span class="badge-pill badge-${a.status}">● ${a.status}</span>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${a.patientId}" target="_blank" class="btn btn-outline" style="padding: 4px 8px; font-size: 11px; white-space: nowrap;">
+                                                            Bệnh Án
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

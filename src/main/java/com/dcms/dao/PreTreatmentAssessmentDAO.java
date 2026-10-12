@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -150,5 +152,56 @@ public class PreTreatmentAssessmentDAO {
             DBContext.close(conn, ps, rs);
         }
         return null;
+    }
+
+    public java.util.Map<Integer, PreTreatmentAssessment> findAssessmentsForVisits(List<Integer> visitIds) {
+        java.util.Map<Integer, PreTreatmentAssessment> map = new java.util.HashMap<>();
+        if (visitIds == null || visitIds.isEmpty()) {
+            return map;
+        }
+        StringBuilder sql = new StringBuilder(
+            "SELECT AssessmentId, VisitId, PatientId, BloodPressure, PulseRate, BloodSugar, BleedingRisk, " +
+            "AnxietyLevel, MedicalClearance, Notes, RecordedAt " +
+            "FROM dbo.PreTreatmentAssessments WHERE VisitId IN ("
+        );
+        for (int i = 0; i < visitIds.size(); i++) {
+            sql.append(i == 0 ? "?" : ", ?");
+        }
+        sql.append(")");
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(sql.toString());
+            for (int i = 0; i < visitIds.size(); i++) {
+                ps.setInt(i + 1, visitIds.get(i));
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                PreTreatmentAssessment a = new PreTreatmentAssessment();
+                a.setAssessmentId(rs.getInt("AssessmentId"));
+                a.setVisitId(rs.getInt("VisitId"));
+                a.setPatientId(rs.getInt("PatientId"));
+                a.setBloodPressure(rs.getString("BloodPressure"));
+                int pulse = rs.getInt("PulseRate");
+                if (!rs.wasNull()) a.setPulseRate(pulse);
+                a.setBloodSugar(rs.getBigDecimal("BloodSugar"));
+                a.setBleedingRisk(rs.getString("BleedingRisk"));
+                a.setAnxietyLevel(rs.getString("AnxietyLevel"));
+                a.setMedicalClearance(rs.getBoolean("MedicalClearance"));
+                a.setNotes(rs.getString("Notes"));
+                Timestamp ts = rs.getTimestamp("RecordedAt");
+                if (ts != null) a.setRecordedAt(ts.toLocalDateTime());
+                map.put(a.getVisitId(), a);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Error in findAssessmentsForVisits", ex);
+        } finally {
+            DBContext.close(conn, ps, rs);
+        }
+        return map;
     }
 }

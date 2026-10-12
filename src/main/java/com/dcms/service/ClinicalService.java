@@ -14,6 +14,7 @@ import com.dcms.model.ToothFinding;
 import com.dcms.model.Visit;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service orchestrating clinical intake, pre-treatment vitals,
@@ -120,6 +121,10 @@ public class ClinicalService {
 
     public PreTreatmentAssessment getPreTreatmentAssessment(int visitId) {
         return assessmentDAO.findByVisitId(visitId);
+    }
+
+    public Map<Integer, PreTreatmentAssessment> getAssessmentsForVisits(List<Integer> visitIds) {
+        return assessmentDAO.findAssessmentsForVisits(visitIds);
     }
 
     // 3. Dental Chart & Tooth Findings (Odontogram)
