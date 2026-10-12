@@ -58,6 +58,7 @@ function handleTabBooking(e) {
     const submitBtn = document.getElementById('btnSubmitTabBooking');
     const msgEl = document.getElementById('tabBookingMsg');
 
+    const originalBtnHtml = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span>Đang xử lý đặt lịch...</span>';
     msgEl.innerText = '';
@@ -82,7 +83,7 @@ function handleTabBooking(e) {
     .then(res => res.json())
     .then(data => {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Xác Nhận Đăng Ký Lịch Khám</span>';
+        submitBtn.innerHTML = originalBtnHtml;
 
         if (data.success) {
             document.getElementById('modalCode').innerText = '#APT-' + (data.appointmentId || 'SUCCESS');
@@ -99,7 +100,7 @@ function handleTabBooking(e) {
     })
     .catch(err => {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Xác Nhận Đăng Ký Lịch Khám</span>';
+        submitBtn.innerHTML = originalBtnHtml;
         msgEl.style.color = '#dc2626';
         msgEl.innerText = 'Lỗi kết nối máy chủ. Vui lòng gọi Hotline 096 669 2286 để được hỗ trợ.';
     });

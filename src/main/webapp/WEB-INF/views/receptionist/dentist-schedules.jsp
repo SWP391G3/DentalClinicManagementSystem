@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:set var="activeMenu" value="schedules" scope="request" />
+<c:set var="u" value="${sessionScope.currentUser}" />
+<c:set var="userRole" value="${not empty u.roleName ? u.roleName : (not empty sessionScope.role ? sessionScope.role : '')}" />
+<c:set var="canManageSchedules" value="${userRole eq 'Admin' or userRole eq 'Receptionist'}" />
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -100,10 +103,12 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                         Lịch Dạng Calendar
                     </a>
-                    <button type="button" class="btn btn-primary" onclick="openAddScheduleModal()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        + Thêm Ca Trực Bác Sĩ
-                    </button>
+                    <c:if test="${canManageSchedules}">
+                        <button type="button" class="btn btn-primary" onclick="openAddScheduleModal()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            + Thêm Ca Trực Bác Sĩ
+                        </button>
+                    </c:if>
                 </div>
             </div>
 
@@ -499,11 +504,14 @@
     }
 
     // Close on clicking backdrop
-    document.getElementById('addScheduleModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeAddScheduleModal();
-        }
-    });
+    const modalBackdropEl = document.getElementById('addScheduleModal');
+    if (modalBackdropEl) {
+        modalBackdropEl.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddScheduleModal();
+            }
+        });
+    }
 
     // Close on Escape key
     document.addEventListener('keydown', function(e) {

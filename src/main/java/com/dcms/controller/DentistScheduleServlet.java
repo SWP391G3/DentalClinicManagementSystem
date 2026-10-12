@@ -91,11 +91,23 @@ public class DentistScheduleServlet extends HttpServlet {
         String returnDentist = (dentistIdStr != null && !dentistIdStr.trim().isEmpty()) ? dentistIdStr.trim() : "";
 
         try {
-            int dentistId = Integer.parseInt(request.getParameter("dentistId"));
-            int dayOfWeek = Integer.parseInt(request.getParameter("dayOfWeek"));
+            if (dentistIdStr == null || dentistIdStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng chọn bác sĩ phụ trách ca trực");
+            }
+            String dayOfWeekStr = request.getParameter("dayOfWeek");
+            if (dayOfWeekStr == null || dayOfWeekStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng chọn thứ trong tuần");
+            }
+
+            int dentistId = Integer.parseInt(dentistIdStr.trim());
+            int dayOfWeek = Integer.parseInt(dayOfWeekStr.trim());
 
             String startStr = request.getParameter("shiftStart");
             String endStr = request.getParameter("shiftEnd");
+
+            if (startStr == null || startStr.trim().isEmpty() || endStr == null || endStr.trim().isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng nhập đầy đủ giờ bắt đầu và giờ kết thúc ca trực");
+            }
 
             LocalTime start = LocalTime.parse(startStr.trim());
             LocalTime end = LocalTime.parse(endStr.trim());

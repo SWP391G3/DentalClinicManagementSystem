@@ -25,8 +25,8 @@
     <title>DCMS Dental Care — Dr.Smile Inspired | Nơi khởi nguồn cho nụ cười rạng rỡ</title>
     <meta name="description" content="DCMS Dental Care — Dr.Smile Inspired, chuyên gia răng sứ thẩm mỹ, niềng răng, implant và điều trị nha khoa kỹ thuật cao tại Hà Nội.">
     <link rel="icon" type="image/svg+xml" href="${pageContext.request.contextPath}/assets/images/dcms-dental-mark.svg">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=3.0">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/public-portal.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/theme.css?v=4.0">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/public-portal.css?v=4.0">
 </head>
 <body>
 
@@ -58,6 +58,6 @@
 
     <!-- 7. Client-side Controller Script -->
     <script>window.DCMS_CONTEXT_PATH = '${pageContext.request.contextPath}';</script>
-    <script src="${pageContext.request.contextPath}/assets/js/public-portal.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/public-portal.js" charset="UTF-8"></script>
 </body>
 </html>
