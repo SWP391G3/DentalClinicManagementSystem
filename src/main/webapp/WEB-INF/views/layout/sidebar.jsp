@@ -104,7 +104,7 @@
             </c:if>
         </c:if>
 
-        <%-- PHÂN KHU 3: KHU KHÁM LÂM SÀNG (BÁC SĨ & TRỢ THỦ & LỄ TÂN) --%>
+        <%-- PHÂN KHU 3: KHU KHÁM LÂM SÀNG (BÁC SĨ & Y TÁ NHA KHOA & LỄ TÂN) --%>
         <c:if test="${isAdmin or isDentist or isAssistant or isReceptionist}">
             <div class="menu-category">Khu Khám Lâm Sàng</div>
 
@@ -113,6 +113,14 @@
                    class="nav-item ${activeMenu == 'dentist_dashboard' ? 'active' : ''}">
                     <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
                     <span>Bàn Làm Việc Bác Sĩ</span>
+                </a>
+            </c:if>
+
+            <c:if test="${isAdmin or isAssistant}">
+                <a href="${pageContext.request.contextPath}/assistant/dashboard" 
+                   class="nav-item ${activeMenu == 'assistant_dashboard' ? 'active' : ''}">
+                    <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                    <span>Bàn Làm Việc Y Tá</span>
                 </a>
             </c:if>
 
@@ -169,6 +177,15 @@
     <div class="sidebar-user">
         <c:set var="displayName" value="${not empty u.fullName ? u.fullName : (not empty sessionScope.fullName ? sessionScope.fullName : 'Nhân Viên')}" />
         <c:set var="displayRole" value="${not empty u.roleName ? u.roleName : (not empty sessionScope.role ? sessionScope.role : 'Staff')}" />
+        <c:set var="roleLabel" value="${displayRole}" />
+        <c:choose>
+            <c:when test="${displayRole eq 'DentalAssistant'}"><c:set var="roleLabel" value="Y Tá Nha Khoa" /></c:when>
+            <c:when test="${displayRole eq 'Dentist'}"><c:set var="roleLabel" value="Bác Sĩ Nha Khoa" /></c:when>
+            <c:when test="${displayRole eq 'Receptionist'}"><c:set var="roleLabel" value="Lễ Tân" /></c:when>
+            <c:when test="${displayRole eq 'Cashier'}"><c:set var="roleLabel" value="Thu Ngân" /></c:when>
+            <c:when test="${displayRole eq 'Admin'}"><c:set var="roleLabel" value="Quản Trị Viên" /></c:when>
+            <c:when test="${displayRole eq 'Patient'}"><c:set var="roleLabel" value="Bệnh Nhân" /></c:when>
+        </c:choose>
 
         <div class="user-avatar">
             ${displayName.substring(0, 1).toUpperCase()}
@@ -177,7 +194,7 @@
             <div class="user-name" title="${displayName}">
                 ${displayName}
             </div>
-            <span class="user-role-badge">${displayRole}</span>
+            <span class="user-role-badge">${roleLabel}</span>
         </div>
         <a href="${pageContext.request.contextPath}/logout" class="btn-logout-icon" title="Đăng xuất">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

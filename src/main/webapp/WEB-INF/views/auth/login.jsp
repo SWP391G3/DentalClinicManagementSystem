@@ -277,8 +277,8 @@
                     <span class="demo-chip-role">Nha Sĩ</span>
                     <span class="demo-chip-user">bacsi_hung</span>
                 </div>
-                <div class="demo-chip" onclick="fillAccount('trothu01', '123456')" title="Nhấn để điền tài khoản Trợ thủ">
-                    <span class="demo-chip-role">Trợ Thủ</span>
+                <div class="demo-chip" onclick="fillAccount('trothu01', '123456')" title="Nhấn để điền tài khoản Y tá nha khoa">
+                    <span class="demo-chip-role">Y Tá Nha Khoa</span>
                     <span class="demo-chip-user">trothu01</span>
                 </div>
                 <div class="demo-chip" onclick="fillAccount('thungan01', '123456')" title="Nhấn để điền tài khoản Thu ngân">

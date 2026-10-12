@@ -136,13 +136,13 @@
 </head>
 <body>
 
-<div class="app-layout">
+<div class="app-shell">
     <jsp:include page="../layout/sidebar.jsp" />
 
-    <div class="main-content">
+    <div class="app-main">
         <jsp:include page="../layout/header.jsp" />
 
-        <main class="page-body">
+        <main class="page-content">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
                 <a href="${pageContext.request.contextPath}/treatment/plans" style="color: var(--drsmile-blue); text-decoration: none; font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
                     <span>←</span> Quay lại danh sách phác đồ điều trị

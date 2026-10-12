@@ -66,6 +66,8 @@ public class AuthFilter implements Filter {
                     // Dental assistants can receive a patient at the chair,
                     // but still cannot create, cancel or manage appointments.
                     || (path.startsWith("/reception/checkin") && role.equalsIgnoreCase("DentalAssistant"));
+        } else if (path.startsWith("/assistant/")) {
+            isAuthorized = role.equalsIgnoreCase("DentalAssistant") || role.equalsIgnoreCase("Dentist") || role.equalsIgnoreCase("Admin");
         } else if (path.startsWith("/dentist/")) {
             isAuthorized = role.equalsIgnoreCase("Dentist") || role.equalsIgnoreCase("DentalAssistant");
         } else if (path.startsWith("/patient/")) {

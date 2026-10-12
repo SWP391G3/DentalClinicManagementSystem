@@ -247,7 +247,7 @@
 </head>
 <body>
 
-<div class="app-layout">
+<div class="app-shell">
     <jsp:include page="/WEB-INF/views/layout/sidebar.jsp" />
 
     <div class="app-main">

@@ -54,8 +54,11 @@ package-lock.json
 
 # Local scripts and environment tools (kept locally only)
 scripts/
+scratch/
+*.docx
 switch_acc.ps1
 switch_acc.sh
 test_rotate_acc.ps1
 package.json
 package-lock.json
+

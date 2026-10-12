@@ -158,7 +158,7 @@ INSERT INTO dbo.Roles (RoleName, Description) VALUES
 (N'Admin', N'Quản trị viên toàn hệ thống'),
 (N'Receptionist', N'Nhân viên lễ tân, tiếp đón, đặt lịch'),
 (N'Dentist', N'Bác sĩ nha khoa điều trị'),
-(N'DentalAssistant', N'Trợ thủ nha khoa'),
+(N'DentalAssistant', N'Y tá nha khoa'),
 (N'Cashier', N'Thu ngân viện phí'),
 (N'Patient', N'Bệnh nhân đặt và quản lý lịch khám cá nhân');
 GO
@@ -171,7 +171,7 @@ INSERT INTO dbo.Users (Username, PasswordHash, FullName, Email, Phone, RoleId, I
 ('bacsi_hung', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'BS. Trần Mạnh Hùng', 'hungtm@dcms.vn', '0901000003', 3, 1),
 ('bacsi_lan', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'BS. Lê Mai Lan', 'lanlm@dcms.vn', '0901000004', 3, 1),
 ('thungan01', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'Phạm Thu Ngân', 'thungan@dcms.vn', '0901000005', 5, 1),
-('trothu01', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'Lê Thị Mai (Trợ thủ)', 'mailt@dcms.vn', '0901000006', 4, 1),
+('trothu01', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'Lê Thị Mai (Y tá nha khoa)', 'mailt@dcms.vn', '0901000006', 4, 1),
 ('benhnhan01', '$2a$10$WetW.pp9un3bEg0egrnwR.aYd3dtTm91gs0TAxeHj7pstRZASkhrK', N'Hoàng Văn Nam', 'namhv@gmail.com', '0988111222', 6, 1);
 GO
 
