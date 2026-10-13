@@ -411,15 +411,19 @@ function filterVisitTable(status) {
         activeBtn.classList.add('btn-primary');
     }
 
-    const rows = document.querySelectorAll('#tablePatientFlow tbody tr.flow-row');
-    rows.forEach(r => {
-        const rowStatus = r.getAttribute('data-status');
-        if (status === 'ALL' || rowStatus === status) {
-            r.style.display = '';
-        } else {
-            r.style.display = 'none';
-        }
-    });
+    const tableEl = document.getElementById('tablePatientFlow');
+    if (tableEl && tableEl._dcmsDataTable) {
+        tableEl._dcmsDataTable.setCustomFilter(row => {
+            if (status === 'ALL') return true;
+            return row.getAttribute('data-status') === status;
+        });
+    } else {
+        const rows = document.querySelectorAll('#tablePatientFlow tbody tr.flow-row');
+        rows.forEach(r => {
+            const rowStatus = r.getAttribute('data-status');
+            r.style.display = (status === 'ALL' || rowStatus === status) ? '' : 'none';
+        });
+    }
 }
 </script>
 </body>
