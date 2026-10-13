@@ -215,6 +215,41 @@
                 </div>
             </c:if>
 
+            <!-- PERMANENT CLINICAL SAFETY GUARD: MEDICAL ALERTS & ALLERGIES -->
+            <c:if test="${not empty patient and (not empty patient.medicalAlerts or not empty patient.allergies)}">
+                <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.1); display: flex; align-items: flex-start; gap: 14px;">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: #fee2e2; border: 2px solid #f87171; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #dc2626;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <strong style="color: #991b1b; font-size: 14.5px; text-transform: uppercase;">
+                                Cảnh Báo An Toàn Y Tế Lâm Sàng Của Bệnh Nhân (Clinical Safety Guard)
+                            </strong>
+                            <span style="background: #dc2626; color: white; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">
+                                LƯU Ý KHI LẬP PHÁC ĐỒ
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px;">
+                            <c:if test="${not empty patient.allergies}">
+                                <div style="background: white; border: 1px solid #fca5a5; border-radius: 6px; padding: 6px 12px; font-size: 13px;">
+                                    <strong style="color: #b91c1c;">Dị ứng:</strong> <span style="color: #7f1d1d; font-weight: 700;">${patient.allergies}</span>
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty patient.medicalAlerts}">
+                                <div style="background: white; border: 1px solid #fcd34d; border-radius: 6px; padding: 6px 12px; font-size: 13px;">
+                                    <strong style="color: #b45309;">Bệnh nền:</strong> <span style="color: #92400e; font-weight: 700;">${patient.medicalAlerts}</span>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+
             <div class="plan-layout-grid">
                 <!-- Left Column: Plan Information & Itemized Procedures -->
                 <div>

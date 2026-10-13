@@ -111,15 +111,17 @@
                                        value="${patient.dob}" />
                             </div>
 
-                            <!-- Citizen ID -->
+                            <!-- Citizen ID (Optional) -->
                             <div class="form-group">
-                                <label for="citizenId" class="form-label">Số CCCD / Hộ Chiếu</label>
+                                <label for="citizenId" class="form-label">
+                                    Số CCCD / Hộ Chiếu <span style="font-size:11.5px; color:var(--text-muted); font-weight:normal;">(Tùy chọn bổ sung &bull; Không bắt buộc)</span>
+                                </label>
                                 <input type="text" 
                                        id="citizenId" 
                                        name="citizenId" 
                                        class="form-control" 
                                        value="${patient.citizenId}" 
-                                       placeholder="001099xxxxxx" />
+                                       placeholder="Ví dụ: 001099xxxxxx (Không bắt buộc)" />
                             </div>
 
                             <!-- Emergency Contact -->

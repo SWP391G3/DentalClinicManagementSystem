@@ -91,11 +91,32 @@ public class CheckInServlet extends HttpServlet {
         // 1. Appointments scheduled for today
         List<Appointment> todayAppointments = appointmentService.getAppointmentsForDate(today, null);
 
-        // 2. Currently waiting patient queue
+        // 2. All visits for today across entire encounter lifecycle (Waiting, InProgress, Completed)
+        List<Visit> allTodayVisits = visitService.getTodayVisits();
         List<Visit> waitingQueue = visitService.getTodayWaitingQueue(null);
+
+        long waitingCount = 0;
+        long inProgressCount = 0;
+        long completedCount = 0;
+
+        if (allTodayVisits != null) {
+            for (Visit v : allTodayVisits) {
+                if (Visit.STATUS_WAITING.equalsIgnoreCase(v.getStatus())) {
+                    waitingCount++;
+                } else if (Visit.STATUS_IN_PROGRESS.equalsIgnoreCase(v.getStatus())) {
+                    inProgressCount++;
+                } else if (Visit.STATUS_COMPLETED.equalsIgnoreCase(v.getStatus())) {
+                    completedCount++;
+                }
+            }
+        }
 
         request.setAttribute("todayAppointments", todayAppointments);
         request.setAttribute("waitingQueue", waitingQueue);
+        request.setAttribute("allTodayVisits", allTodayVisits);
+        request.setAttribute("waitingCount", waitingCount);
+        request.setAttribute("inProgressCount", inProgressCount);
+        request.setAttribute("completedCount", completedCount);
         request.setAttribute("todayDate", today);
 
         request.getRequestDispatcher("/WEB-INF/views/receptionist/checkin.jsp").forward(request, response);

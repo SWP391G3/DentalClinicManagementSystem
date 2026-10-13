@@ -67,15 +67,35 @@
                 </div>
             </c:if>
 
-            <!-- KPI Summary Cards -->
+            <!-- KPI Summary Cards: Real-Time Patient Flow -->
             <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon-box kpi-icon-blue">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                <div class="kpi-card" style="cursor: pointer;" onclick="filterVisitTable('Waiting')">
+                    <div class="kpi-icon-box kpi-icon-amber">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     </div>
                     <div class="kpi-meta">
-                        <h3>${empty waitingQueue ? 0 : waitingQueue.size()}</h3>
-                        <span>Bệnh nhân trong hàng đợi ghế</span>
+                        <h3>${waitingCount != null ? waitingCount : (empty waitingQueue ? 0 : waitingQueue.size())}</h3>
+                        <span>1. Chờ vào ghế khám</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card" style="cursor: pointer;" onclick="filterVisitTable('InProgress')">
+                    <div class="kpi-icon-box kpi-icon-blue">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v3M20 18v3M4 11h16M6 11V6a3 3 0 0 1 6 0v5M18 11V8a2 2 0 0 0-2-2"/></svg>
+                    </div>
+                    <div class="kpi-meta">
+                        <h3>${inProgressCount != null ? inProgressCount : 0}</h3>
+                        <span>2. Đang khám tại ghế</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card" style="cursor: pointer;" onclick="filterVisitTable('Completed')">
+                    <div class="kpi-icon-box kpi-icon-green">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="kpi-meta">
+                        <h3>${completedCount != null ? completedCount : 0}</h3>
+                        <span>3. Đã khám xong (Chờ viện phí)</span>
                     </div>
                 </div>
 
@@ -87,78 +107,77 @@
                 </c:forEach>
 
                 <div class="kpi-card">
-                    <div class="kpi-icon-box kpi-icon-amber">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <div class="kpi-icon-box kpi-icon-purple">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
                     <div class="kpi-meta">
                         <h3>${pendingApptCount}</h3>
                         <span>Lịch hẹn chờ check-in hôm nay</span>
                     </div>
                 </div>
-
-                <div class="kpi-card">
-                    <div class="kpi-icon-box kpi-icon-green">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    </div>
-                    <div class="kpi-meta">
-                        <h3>${empty todayAppointments ? 0 : (todayAppointments.size() - pendingApptCount)}</h3>
-                        <span>Đã tiếp đón thành công</span>
-                    </div>
-                </div>
-
-                <div class="kpi-card">
-                    <div class="kpi-icon-box kpi-icon-purple">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    </div>
-                    <div class="kpi-meta">
-                        <h3 style="font-size: 20px;">${todayDate}</h3>
-                        <span>Ca trực phòng khám</span>
-                    </div>
-                </div>
             </div>
 
-            <!-- SECTION 1: TODAY'S ACTIVE WAITING QUEUE (CLINIC SEATS) -->
+            <!-- SECTION 1: TODAY'S ENTIRE ENCOUNTER LIFECYCLE (LIVE PATIENT FLOW) -->
             <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span>Hàng Đợi Chờ Khám Tại Ghế (Active Clinic Queue)</span>
+                <div class="card-header" style="flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <div class="card-title">
+                            <span>Luồng Bệnh Nhân Tiếp Đón Trong Ngày (Live Patient Flow)</span>
+                        </div>
+                        <p style="margin: 4px 0 0 0; font-size: 12.5px; color: var(--text-muted);">
+                            Theo dõi tức thì 3 trạng thái: <strong>Chờ khám</strong> &rarr; <strong>Đang tại ghế</strong> &rarr; <strong>Đã hoàn thành</strong>
+                        </p>
                     </div>
-                    <span class="badge-pill badge-Arrived">
-                        ● ${empty waitingQueue ? 0 : waitingQueue.size()} người đang chờ
-                    </span>
+
+                    <!-- Flow Filter Buttons -->
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-sm btn-outline active-filter-btn" id="btnFilterAll" onclick="filterVisitTable('ALL')">
+                            Tất Cả (${empty allTodayVisits ? 0 : allTodayVisits.size()})
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline" id="btnFilterWaiting" onclick="filterVisitTable('Waiting')">
+                            Chờ Vào Ghế (${waitingCount != null ? waitingCount : 0})
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline" id="btnFilterInProgress" onclick="filterVisitTable('InProgress')">
+                            Đang Tại Ghế (${inProgressCount != null ? inProgressCount : 0})
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline" id="btnFilterCompleted" onclick="filterVisitTable('Completed')">
+                            Đã Khám Xong (${completedCount != null ? completedCount : 0})
+                        </button>
+                    </div>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table-custom" data-datatable="true" data-page-size="10">
+                    <table class="table-custom" id="tablePatientFlow" data-datatable="true" data-page-size="10">
                         <thead>
                             <tr>
                                 <th style="width: 60px;">STT</th>
                                 <th>Thời Điểm Đến</th>
                                 <th>Bệnh Nhân</th>
                                 <th>Số Điện Thoại</th>
-                                <th>Bác Sĩ Phụ Trách</th>
-                                <th>Loại Tiếp Nhận</th>
+                                <th>Bác Sĩ Điều Trị</th>
+                                <th>Vị Trí Ghế / Phòng</th>
                                 <th>Cảnh Báo Y Tế & Dị Ứng</th>
-                                <th>Trạng Thái</th>
+                                <th>Trạng Thái Tiến Trình</th>
+                                <th style="text-align: center;">Hồ Sơ</th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:choose>
-                                <c:when test="${empty waitingQueue}">
+                                <c:when test="${empty allTodayVisits}">
                                     <tr>
-                                        <td colspan="8">
+                                        <td colspan="9">
                                             <div class="empty-state">
-                                                <h4>Hàng đợi khám hiện đang trống</h4>
-                                                <p>Khi bệnh nhân đến check-in hoặc tiếp nhận vãng lai, danh sách sẽ hiển thị tại đây.</p>
+                                                <h4>Chưa có lượt tiếp đón nào trong ngày hôm nay</h4>
+                                                <p>Khi bệnh nhân đến check-in hoặc tiếp nhận vãng lai, toàn bộ luồng khám sẽ hiển thị tại đây.</p>
                                             </div>
                                         </td>
                                     </tr>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach var="v" items="${waitingQueue}" varStatus="status">
-                                        <tr>
+                                    <c:forEach var="v" items="${allTodayVisits}" varStatus="status">
+                                        <tr class="flow-row" data-status="${v.status}">
                                             <td>
-                                                <div class="queue-order-badge ${v.visitType eq 'Emergency' ? 'priority' : ''}" style="width:36px; height:36px; font-size:14px;">
+                                                <div class="queue-order-badge ${v.visitType eq 'Emergency' ? 'priority' : ''}" style="width:34px; height:34px; font-size:13px;">
                                                     #${status.index + 1}
                                                 </div>
                                             </td>
@@ -175,7 +194,12 @@
                                                     <div>
                                                         <strong>${v.patientName}</strong>
                                                         <div style="font-size: 11.5px; color: var(--text-muted);">
-                                                            Mã lượt khám: #${v.visitId}
+                                                            Mã lượt khám: #${v.visitId} &bull; 
+                                                            <c:choose>
+                                                                <c:when test="${v.visitType eq 'Scheduled'}"><span style="color:#0284c7; font-weight:600;">Có hẹn</span></c:when>
+                                                                <c:when test="${v.visitType eq 'Emergency'}"><span style="color:#dc2626; font-weight:700;">Cấp cứu</span></c:when>
+                                                                <c:otherwise><span style="color:#64748b;">Vãng lai</span></c:otherwise>
+                                                            </c:choose>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -192,14 +216,13 @@
                                             </td>
                                             <td>
                                                 <c:choose>
-                                                    <c:when test="${v.visitType eq 'Scheduled'}">
-                                                        <span class="badge-pill badge-Confirmed">Có hẹn</span>
-                                                    </c:when>
-                                                    <c:when test="${v.visitType eq 'Emergency'}">
-                                                        <span class="badge-pill badge-Cancelled">Cấp cứu</span>
+                                                    <c:when test="${not empty v.operatory}">
+                                                        <span style="font-weight:700; color:#0369a1; background:#e0f2fe; padding:3px 8px; border-radius:6px; font-size:12px;">
+                                                            ${v.operatory}
+                                                        </span>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="badge-pill badge-Pending">Vãng lai</span>
+                                                        <span style="color:var(--text-muted); font-size:12px;">Chờ phân ghế</span>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
@@ -217,9 +240,31 @@
                                                 </c:if>
                                             </td>
                                             <td>
-                                                <span class="badge-pill badge-Pending">
-                                                    Chờ gọi khám
-                                                </span>
+                                                <c:choose>
+                                                    <c:when test="${v.status eq 'Waiting'}">
+                                                        <span class="badge-pill badge-Pending" style="font-weight:700;">
+                                                            ● Chờ vào ghế
+                                                        </span>
+                                                    </c:when>
+                                                    <c:when test="${v.status eq 'InProgress'}">
+                                                        <span class="badge-pill badge-Arrived" style="font-weight:700; background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd;">
+                                                            ● Đang khám tại ghế
+                                                        </span>
+                                                    </c:when>
+                                                    <c:when test="${v.status eq 'Completed'}">
+                                                        <span class="badge-pill badge-Confirmed" style="font-weight:700;">
+                                                            ✓ Đã khám xong
+                                                        </span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="badge-pill badge-Cancelled">${v.status}</span>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <a href="${pageContext.request.contextPath}/reception/patients/detail?id=${v.patientId}" target="_blank" class="btn btn-outline" style="padding: 4px 8px; font-size: 11.5px; white-space: nowrap;">
+                                                    Bệnh Án
+                                                </a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -348,6 +393,34 @@
 
 <!-- DCMS Universal Data Table Standard Engine -->
 <script src="${pageContext.request.contextPath}/assets/js/dcms-datatable.js?v=2.1" charset="UTF-8"></script>
+<script>
+function filterVisitTable(status) {
+    const buttons = ['btnFilterAll', 'btnFilterWaiting', 'btnFilterInProgress', 'btnFilterCompleted'];
+    buttons.forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-outline');
+        }
+    });
 
+    const activeId = 'btnFilter' + status;
+    const activeBtn = document.getElementById(activeId);
+    if (activeBtn) {
+        activeBtn.classList.remove('btn-outline');
+        activeBtn.classList.add('btn-primary');
+    }
+
+    const rows = document.querySelectorAll('#tablePatientFlow tbody tr.flow-row');
+    rows.forEach(r => {
+        const rowStatus = r.getAttribute('data-status');
+        if (status === 'ALL' || rowStatus === status) {
+            r.style.display = '';
+        } else {
+            r.style.display = 'none';
+        }
+    });
+}
+</script>
 </body>
 </html>

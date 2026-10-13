@@ -229,6 +229,53 @@
                 </div>
             </div>
 
+            <!-- PERMANENT CLINICAL SAFETY GUARD: MEDICAL ALERTS & ALLERGIES -->
+            <c:if test="${not empty patient.medicalAlerts or not empty patient.allergies}">
+                <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.12); display: flex; align-items: flex-start; gap: 16px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #fee2e2; border: 2px solid #f87171; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #dc2626;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                            <strong style="color: #991b1b; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Cảnh Báo An Toàn Y Tế Đặc Biệt (Permanent Clinical Red-Flag)
+                            </strong>
+                            <span style="background: #dc2626; color: white; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px;">
+                                LƯU Ý KHI GÂY TÊ & PHẪU THUẬT
+                            </span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 8px;">
+                            <c:if test="${not empty patient.allergies}">
+                                <div style="background: #ffffff; border: 1px solid #fca5a5; border-radius: 8px; padding: 10px 14px;">
+                                    <div style="font-size: 11.5px; font-weight: 700; color: #b91c1c; text-transform: uppercase;">Dị Ứng Thuốc / Hóa Chất:</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #7f1d1d; margin-top: 2px;">
+                                        ${patient.allergies}
+                                    </div>
+                                    <div style="font-size: 11.5px; color: #dc2626; margin-top: 3px;">
+                                        * Tuyệt đối không chỉ định thuốc tê, kháng sinh hoặc vật liệu có chứa hoạt chất gây dị ứng.
+                                    </div>
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty patient.medicalAlerts}">
+                                <div style="background: #ffffff; border: 1px solid #fcd34d; border-radius: 8px; padding: 10px 14px;">
+                                    <div style="font-size: 11.5px; font-weight: 700; color: #b45309; text-transform: uppercase;">Tiền Sử Bệnh Nền / Toàn Thân:</div>
+                                    <div style="font-size: 14px; font-weight: 700; color: #92400e; margin-top: 2px;">
+                                        ${patient.medicalAlerts}
+                                    </div>
+                                    <div style="font-size: 11.5px; color: #b45309; margin-top: 3px;">
+                                        * Đối soát huyết áp, nhịp tim và nguy cơ chảy máu trước khi can thiệp thủ thuật xâm lấn.
+                                    </div>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+
             <!-- Pre-Treatment Vitals & Clinical Clearance Banner (From Dental Assistant) -->
             <div style="background: #ffffff; border: 1px solid var(--border); border-left: 4px solid ${empty assessment ? '#f59e0b' : (assessment.medicalClearance ? '#10b981' : '#ef4444')}; border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">

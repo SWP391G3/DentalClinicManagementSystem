@@ -195,33 +195,33 @@
                     </div>
                 </div>
 
-                <!-- Right: Doctor Today Appointments -->
+                <!-- Right: Doctor Today Worklist (Appointments & Completed Visits) -->
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="flex-wrap: wrap; gap: 8px;">
                         <div class="card-title">
-                            <span>Lịch Hẹn Của Bác Sĩ Hôm Nay</span>
+                            <span>Danh Sách Ca Khám Phân Công Hôm Nay</span>
                         </div>
-                        <a href="${pageContext.request.contextPath}/reception/calendar" style="font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 600;">
-                            Xem Lịch &rarr;
-                        </a>
+                        <span class="badge-pill badge-Confirmed">
+                            ${empty todayAppointments ? 0 : todayAppointments.size()} Cuộc hẹn
+                        </span>
                     </div>
                     <div class="card-body" style="padding: 0;">
                         <div class="table-responsive">
                             <table class="table-custom">
                                 <thead>
                                     <tr>
-                                        <th style="width: 140px;">Giờ Hẹn</th>
+                                        <th style="width: 130px;">Khung Giờ</th>
                                         <th>Bệnh Nhân</th>
-                                        <th>Dịch Vụ / Lý Do</th>
+                                        <th>Lý Do / Dịch Vụ</th>
                                         <th style="text-align: center; width: 110px;">Trạng Thái</th>
-                                        <th style="text-align: center; width: 100px;">Bệnh Án</th>
+                                        <th style="text-align: center; width: 90px;">Hồ Sơ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:choose>
                                         <c:when test="${empty todayAppointments}">
                                             <tr>
-                                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                                                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 36px;">
                                                     Không có lịch hẹn nào được phân công hôm nay.
                                                 </td>
                                             </tr>
@@ -231,7 +231,7 @@
                                                 <tr>
                                                     <td>
                                                         <div class="time-badge">
-                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                                 <circle cx="12" cy="12" r="10"></circle>
                                                                 <polyline points="12 6 12 12 16 14"></polyline>
                                                             </svg>

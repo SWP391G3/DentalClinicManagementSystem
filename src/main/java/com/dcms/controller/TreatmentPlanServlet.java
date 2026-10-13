@@ -126,8 +126,10 @@ public class TreatmentPlanServlet extends HttpServlet {
                 return;
             }
 
+            Patient patient = patientDAO.findById(plan.getPatientId());
             List<DentalService> activeServices = serviceDAO.findAll(true);
             request.setAttribute("plan", plan);
+            request.setAttribute("patient", patient);
             request.setAttribute("activeServices", activeServices);
             request.getRequestDispatcher("/WEB-INF/views/treatment/plan-detail.jsp").forward(request, response);
         } catch (NumberFormatException e) {

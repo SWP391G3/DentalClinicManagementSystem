@@ -10,6 +10,13 @@
                 <h2 style="font-size:22px; font-weight:800; color:var(--dr-navy); margin:4px 0 0 0;">Đăng Ký Khám & Tư Vấn Miễn Phí</h2>
             </div>
 
+            <c:if test="${not empty param.bookingError}">
+                <div style="background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; padding:12px 16px; border-radius:8px; margin-bottom:16px; font-size:13.5px; display:flex; align-items:center; gap:8px;">
+                    <span style="font-weight:bold; font-size:16px;">!</span>
+                    <div><strong>Không thể đặt lịch:</strong> ${param.bookingError}</div>
+                </div>
+            </c:if>
+
             <form id="onlineBookingForm" onsubmit="handleTabBooking(event)">
                 <div class="booking-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
                     <div class="booking-input-group">
